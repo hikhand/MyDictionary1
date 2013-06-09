@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="5dp"
+            />
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New"
+            android:id="@+id/button"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="AddNew"
+            android:layout_alignParentRight="false"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentLeft="true"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSearch"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="false"
+            android:maxWidth="200dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            android:layout_toRightOf="@+id/button"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            />
+
+</RelativeLayout>
