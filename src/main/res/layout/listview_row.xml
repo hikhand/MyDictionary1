@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@android:id/text1"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:paddingLeft="6dp"
+          android:paddingRight="6dp"
+          android:paddingBottom="13dp"
+          android:paddingTop="13dp"
+          android:gravity="center_vertical|center_horizontal|left"
+          android:textSize="23sp"/>
+        <!--android:layout_height="?android:attr/listPreferredItemHeight"-->

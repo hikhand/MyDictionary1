@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hister.mydictionary"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="1.0.1" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -12,9 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" >
+        android:theme="@style/AppTheme" >
         <activity
-            android:configChanges="keyboardHidden|orientation"
             android:name="com.hister.mydictionary.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -24,4 +23,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

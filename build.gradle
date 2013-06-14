@@ -21,7 +21,3 @@ android {
         targetSdkVersion 17
     }
 }
-
-tasks.withType(Compile) {
-    options.encoding = "UTF-8"
-}

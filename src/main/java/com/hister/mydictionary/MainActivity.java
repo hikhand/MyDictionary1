@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -20,20 +18,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.inputmethod.EditorInfo;
 import android.view.KeyEvent;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends Activity {
     public SharedPreferences Words;
@@ -74,7 +65,7 @@ public class MainActivity extends Activity {
         items.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //if keyboard was up puts it down !!
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
 
                 dialogMeaning(fromSearch, position);
@@ -134,10 +125,10 @@ public class MainActivity extends Activity {
     }
 
     void dialogMeaning(boolean fromSearch, int position) {
-        
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (fromSearch) {
-            builder.setMessage(arrayMeaning.get(position));            
+            builder.setMessage(arrayMeaning.get(position));
         }
         else {
             builder.setMessage(meaningsA[position]);
@@ -164,7 +155,7 @@ public class MainActivity extends Activity {
 
         arrayWords = new ArrayList<String>();
         arrayMeaning = new ArrayList<String>();
-        adapterWords = new ArrayAdapter(MainActivity.this, R.layout.gridview_row, arrayWords);
+        adapterWords = new ArrayAdapter(MainActivity.this, R.layout.listview_row, arrayWords);
 
         wordsA = new String[1000];
         meaningsA = new String[1000];
@@ -175,21 +166,16 @@ public class MainActivity extends Activity {
 
 
     public void setElementsValue() {
-//        String[] words = new String[count];
-//        String[] meanings = new String[count];
         if (count > 0) {
             arrayWords.clear();
             arrayMeaning.clear();
             for (int i = 0; i < count; i++) {
                 arrayWords.add(wordsA[i]);
                 arrayMeaning.add(meaningsA[i]);
-//                words[i] = wordsA[i];
-//                meanings[i] = meaningsA[i];
-            }
+           }
         }
         adapterWords.notifyDataSetChanged();
         items.setAdapter(adapterWords);
-//        items.setAdapter(new ArrayAdapter<String>(this, R.layout.gridview_row, words));
     }
 
     //btn add new word
@@ -209,10 +195,6 @@ public class MainActivity extends Activity {
         Button theButton = d.getButton(DialogInterface.BUTTON_POSITIVE);
         theButton.setOnClickListener(new CustomListener(d));
 
-
-        //for onPause
-        editorRotate.putBoolean("addNewIsOn", true);
-        editorRotate.apply();
     }
 
     class CustomListener implements View.OnClickListener {
@@ -274,16 +256,12 @@ public class MainActivity extends Activity {
 
     public void searchByKey(String key) {
 
-//        String[] wordsInSearch = new String[1000];
-//        String[] meaningsInSearch = new String[1000];
         int found = 0;
         if (count > 0) {
             arrayWords.clear();
             arrayMeaning.clear();
             for (int i = 0, j = 0; i < count; i++) {
                 if (wordsA[i].contains(key) || meaningsA[i].contains(key)) {
-//                    wordsInSearch[j] = wordsA[i];
-//                    meaningsInSearch[j] = meaningsA[i];
                     arrayWords.add(wordsA[i]);
                     arrayMeaning.add(meaningsA[i]);
                     found++;
@@ -293,16 +271,11 @@ public class MainActivity extends Activity {
             if (found > 0) {
                 adapterWords.notifyDataSetChanged();
                 items.setAdapter(adapterWords);
-//                ArrayAdapter thisAdapter = new ArrayAdapter(MainActivity.this, R.layout.gridview_row, wordsInSearch);
-//                items.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.gridview_row, wordsInSearch));
             }
         }
 
         fromSearch = true;
 
-        //for onPause
-        editorRotate.putBoolean("isInSearch", true);
-        editorRotate.apply();
     }
 
 
@@ -317,13 +290,8 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-//        if (Rotate.getBoolean("isInSearch", false)) {
-//            searchByKey(etSearch.getText().toString());
+
 //        }
-    }
-
-    void reAddNew() {
-
     }
 
     @Override

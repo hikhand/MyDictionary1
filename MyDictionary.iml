@@ -14,7 +14,7 @@
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
         <option name="GRADLE_PROJECT_PATH" value=":MyDictionary" />
-        <option name="PROJECT_ABSOLUTE_PATH" value="D:\WorkPlace\android\2013\05\MyDictionaryProject" />
+        <option name="PROJECT_ABSOLUTE_PATH" value="D:\Programming\workplace\_Projects\MyDictionaryProject" />
         <option name="GRADLE_HOME_DIR_PATH" />
       </configuration>
     </facet>
