@@ -55,7 +55,15 @@ public class MainActivity extends Activity {
     ArrayList<String> arrayWords;
     ArrayList<String> arrayMeaning;
     public ArrayAdapter adapterWords;
+    public AlertDialog dialogAddNew;
+    public AlertDialog dialogEdit;
+    public AlertDialog dialogMeaning;
 
+    int listViewPosition = 0;
+    boolean dialogAddNewIsOpen = false;
+    View dialogAddNewView = null;
+    boolean dialogMeaningIsOpen = false;
+    boolean dialogEditIsOpen = false;
 
 
     @Override
@@ -66,8 +74,23 @@ public class MainActivity extends Activity {
         setElementsId();
         setStringAllValue();
         setElementsValue();
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        if (icicle != null) {
+            listViewPosition = icicle.getInt("listViewPosition");
+            dialogAddNewIsOpen = icicle.getBoolean("dialogAddNewIsOpen");
+            dialogMeaningIsOpen = icicle.getBoolean("dialogMeaningIsOpen");
+            dialogEditIsOpen = icicle.getBoolean("dialogEditIsOpen");
+        }
+        if (dialogAddNewIsOpen) {
+            dialogAddNew();
+            EditText wordAddNew = (EditText) dialogAddNew.findViewById(R.id.word);
+            EditText meaningAddNew = (EditText) dialogAddNew.findViewById(R.id.meaning);
+            wordAddNew.setText(icicle.getString("editTextWordAddNew"));
+            meaningAddNew.setText(icicle.getString("editTextMeaningAddNew"));
+        }
+
 
 
         items.setOnItemClickListener(new OnItemClickListener() {
@@ -168,10 +191,10 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        AlertDialog alert = builder.create();
-        alert.show();
+        dialogMeaning = builder.create();
+        dialogMeaning.show();
 
-        TextView textView = (TextView) alert.findViewById(android.R.id.message);
+        TextView textView = (TextView) dialogMeaning.findViewById(android.R.id.message);
         textView.setTextSize(28);
     }
 
@@ -187,8 +210,8 @@ public class MainActivity extends Activity {
                         })
                 .setNegativeButton(R.string.close, null);
 
-        AlertDialog dialog = d.create();
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialogEdit = d.create();
+        dialogEdit.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         etNewWord = (EditText) layout.findViewById(R.id.word);
         etNewMeaning = (EditText) layout.findViewById(R.id.meaning);
@@ -203,13 +226,12 @@ public class MainActivity extends Activity {
 
 
 
-        dialog.show();
+        dialogEdit.show();
 
 
-        Button theButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        theButton.setOnClickListener(new CustomListenerEdit(dialog));
+        Button theButton = dialogEdit.getButton(DialogInterface.BUTTON_POSITIVE);
+        theButton.setOnClickListener(new CustomListenerEdit(dialogEdit));
     }
-
 
     class CustomListenerEdit implements View.OnClickListener {
         private final Dialog dialog;
@@ -219,6 +241,44 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View v) {
 
+        }
+    }
+
+    void dialogAddNew() {
+        LayoutInflater inflater = this.getLayoutInflater();
+        dialogAddNewView = inflater.inflate(R.layout.dialog_addnew, null);
+        dialogAddNew = new AlertDialog.Builder(this)
+                .setView(inflater.inflate(R.layout.dialog_addnew, null))
+                .setPositiveButton(R.string.save,
+                        new Dialog.OnClickListener() {
+                            public void onClick(DialogInterface d, int which) {
+
+                            }
+                        })
+                .setNegativeButton(R.string.cancel, null)
+                .create();
+        dialogAddNew.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialogAddNew.show();
+        Button theButton = dialogAddNew.getButton(DialogInterface.BUTTON_POSITIVE);
+        theButton.setOnClickListener(new CustomListenerAddNew(dialogAddNew));
+    }
+
+    class CustomListenerAddNew implements View.OnClickListener {
+        private final Dialog dialog;
+        public CustomListenerAddNew(Dialog dialog) {
+            this.dialog = dialog;
+        }
+        @Override
+        public void onClick(View v) {
+            if (isReady(dialog)) {
+                etNewWord = (EditText) dialog.findViewById(R.id.word);
+                etNewMeaning = (EditText) dialog.findViewById(R.id.meaning);
+                newWord = etNewWord.getText().toString();
+                newMeaning = etNewMeaning.getText().toString();
+                saveNewWords();
+                setElementsValue();
+                dialog.dismiss();
+            }
         }
     }
 
@@ -243,6 +303,9 @@ public class MainActivity extends Activity {
         String countStr = Words.getString("count", "0");
         count = Integer.parseInt(countStr);
 
+        dialogAddNew = new AlertDialog.Builder(this).create();
+        dialogEdit = new AlertDialog.Builder(this).create();
+        dialogMeaning = new AlertDialog.Builder(this).create();
     }
 
     public void setElementsValue() {
@@ -261,41 +324,7 @@ public class MainActivity extends Activity {
 
     //btn add new word
     public void AddNew(View view) {
-        LayoutInflater inflater = this.getLayoutInflater();
-        final AlertDialog d = new AlertDialog.Builder(this)
-                .setView(inflater.inflate(R.layout.dialog_addnew, null))
-                .setPositiveButton(R.string.save,
-                        new Dialog.OnClickListener() {
-                            public void onClick(DialogInterface d, int which) {
-
-                            }
-                        })
-                .setNegativeButton(R.string.cancel, null)
-                .create();
-        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        d.show();
-        Button theButton = d.getButton(DialogInterface.BUTTON_POSITIVE);
-        theButton.setOnClickListener(new CustomListenerAddNew(d));
-
-    }
-
-    class CustomListenerAddNew implements View.OnClickListener {
-        private final Dialog dialog;
-        public CustomListenerAddNew(Dialog dialog) {
-            this.dialog = dialog;
-        }
-        @Override
-        public void onClick(View v) {
-            if (isReady(dialog)) {
-                etNewWord = (EditText) dialog.findViewById(R.id.word);
-                etNewMeaning = (EditText) dialog.findViewById(R.id.meaning);
-                newWord = etNewWord.getText().toString();
-                newMeaning = etNewMeaning.getText().toString();
-                saveNewWords();
-                setElementsValue();
-                dialog.dismiss();
-            }
-        }
+        dialogAddNew();
     }
 
     public boolean isReady(Dialog dialog) {
@@ -361,7 +390,25 @@ public class MainActivity extends Activity {
 
 
 
+    protected void onSaveInstanceState(Bundle icicle) {
+        super.onSaveInstanceState(icicle);
+        EditText wordAddNew = (EditText) dialogAddNew.findViewById(R.id.word);
+        EditText meaningAddNew = (EditText) dialogAddNew.findViewById(R.id.meaning);
 
+
+        icicle.putInt("listViewPosition", items.getFirstVisiblePosition());
+
+        if (dialogAddNew.isShowing()) {
+            icicle.putBoolean("dialogAddNewIsOpen", dialogAddNew.isShowing());
+            icicle.putString("editTextWordAddNew", wordAddNew.getText().toString());
+            icicle.putString("editTextMeaningAddNew", meaningAddNew.getText().toString());
+        }
+
+
+        icicle.putBoolean("dialogMeaningIsOpen", dialogMeaning.isShowing());
+        icicle.putBoolean("dialogEditIsOpen", dialogEdit.isShowing());
+
+    }
 
     @Override
     public void onPause() {
@@ -371,8 +418,9 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        items.setSelectionFromTop(listViewPosition, 0);
 
-//        }
+
     }
 
     @Override
