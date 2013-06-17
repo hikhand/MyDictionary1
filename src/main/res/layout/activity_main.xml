@@ -2,7 +2,7 @@
 
 <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListView
@@ -34,7 +34,6 @@
             android:id="@+id/etSearch"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="false"
-            android:maxWidth="200dp"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="5dp"
             android:singleLine="true"
@@ -43,7 +42,7 @@
             android:inputType="text"
             android:drawableRight="@android:drawable/ic_menu_search"
             android:imeOptions="actionSearch"
-            android:layout_alignBaseline="@+id/button"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:layout_alignBottom="@+id/button"/>
 
 </RelativeLayout>

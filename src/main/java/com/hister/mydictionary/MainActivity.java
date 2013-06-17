@@ -1,22 +1,21 @@
 package com.hister.mydictionary;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -72,11 +71,32 @@ public class MainActivity extends Activity {
     String dialogMeaningText = null;
     int dialogMeaningWordPosition = 0;
     int dialogEditWordPosition = 0;
-
     boolean dialogEditIsOpen = false;
-
     boolean dialogAskDeleteIsOpen = false;
 
+
+    String searchMethod;
+//    String editTextPreference;
+//    String ringtonePreference;
+//    String secondEditTextPreference;
+//    String customPref;
+
+    private void getPrefs() {
+        // Get the xml/preferences.xml preferences
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        searchMethod = prefs.getString("prefSearchMethod", "wordsAndMeanings");
+//        editTextPreference = prefs.getString("editTextPref",
+//                "Nothing has been entered");
+//        ringtonePreference = prefs.getString("ringtonePref",
+//                "DEFAULT_RINGTONE_URI");
+//        secondEditTextPreference = prefs.getString("SecondEditTextPref",
+//                "Nothing has been entered");
+//        // Get the custom preference
+//        SharedPreferences mySharedPreferences = getSharedPreferences(
+//                "myCustomSharedPrefs", Activity.MODE_PRIVATE);
+//        customPref = mySharedPreferences.getString("myCusomPref", "");
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -86,6 +106,7 @@ public class MainActivity extends Activity {
         setElementsId();
         setElementsValue();
         setElementsValue();
+        getPrefs();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
@@ -206,8 +227,8 @@ public class MainActivity extends Activity {
         dialogMeaningWordPosition = position;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (fromSearch) {
-            builder.setMessage(arrayMeaning.get(position));
-            dialogMeaningText = arrayMeaning.get(position);
+            builder.setMessage(arrayMeaningSearch.get(position));
+            dialogMeaningText = arrayMeaningSearch.get(position);
         } else {
             builder.setMessage(arrayMeaning.get(position));
             dialogMeaningText = arrayMeaning.get(position);
@@ -238,7 +259,7 @@ public class MainActivity extends Activity {
         final View layout = inflater.inflate(R.layout.dialog_addnew, null);
         final AlertDialog.Builder d = new AlertDialog.Builder(this)
                 .setView(layout)
-                .setPositiveButton(R.string.edit,
+                .setPositiveButton(R.string.save,
                         new Dialog.OnClickListener() {
                             public void onClick(DialogInterface d, int which) {
 
@@ -386,11 +407,10 @@ public class MainActivity extends Activity {
                 saveNewWords();
                 setElementsValue();
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, "Successfully deleted.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
     public void setElementsId() {
         Words = getSharedPreferences("Words", 0);
@@ -537,7 +557,14 @@ public class MainActivity extends Activity {
             arrayWordsToShow.clear();
             arrayMeaningSearch.clear();
             for (int i = 0, j = 0; i < count; i++) {
-                if (arrayWords.get(i).contains(key) || arrayMeaning.get(i).contains(key)) {
+                key = key.toUpperCase();
+                String word = arrayWords.get(i);
+                String meaning = arrayMeaning.get(i);
+                word = word.toUpperCase();
+                meaning = meaning.toUpperCase();
+                if (searchMethod.equals("wordsAndMeanings") ? word.contains(key) || meaning.contains(key) :
+                        searchMethod.equals("justWords") ? word.contains(key) :
+                                meaning.contains(key)) {
 //                    if (wordsA[i].contains(key) || meaningsA[i].contains(key)) {
                     arrayWordsSearch.add(Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
                     arrayWordsToShow.add(j + 1 + ".  " + Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
@@ -611,6 +638,7 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        getPrefs();
         items.setSelectionFromTop(listViewPosition, 0);
     }
 
@@ -622,4 +650,14 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(MainActivity.this, "WOW", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, Preferences.class));
+                return true;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
 }
