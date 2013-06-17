@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +75,7 @@ public class MainActivity extends Activity {
     boolean dialogEditIsOpen = false;
     boolean dialogAskDeleteIsOpen = false;
 
+    ImageView imgAdd;
 
     String searchMethod;
 //    String editTextPreference;
@@ -98,6 +100,18 @@ public class MainActivity extends Activity {
 //        customPref = mySharedPreferences.getString("myCusomPref", "");
     }
 
+    void setImgAddVisibility() {
+        imgAdd = (ImageView) findViewById(R.id.imgAdd);
+        imgAdd.setVisibility(View.GONE);
+        if (count == 0) {
+            imgAdd.setVisibility(View.VISIBLE);
+        }
+        else {
+            imgAdd.setVisibility(View.GONE);
+        }
+
+    }
+
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -109,6 +123,7 @@ public class MainActivity extends Activity {
         getPrefs();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        setImgAddVisibility();
 
         if (icicle != null) {
             listViewPosition = icicle.getInt("listViewPosition");
@@ -145,7 +160,6 @@ public class MainActivity extends Activity {
             newMeaningEdit = icicle.getString("dialogEditMeaningText");
 
         }
-
 
         items.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -349,6 +363,9 @@ public class MainActivity extends Activity {
                 arrayWordsToShow.remove(dialogEditWordPosition);
                 arrayMeaning.remove(dialogEditWordPosition);
                 count--;
+
+                setImgAddVisibility();
+
                 refreshList();
                 setElementsValue();
 
@@ -531,6 +548,9 @@ public class MainActivity extends Activity {
         editorMeanings.commit();
 
         count++;
+
+        setImgAddVisibility();
+
         setElementsValue();
     }
 
@@ -654,9 +674,11 @@ public class MainActivity extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Toast.makeText(MainActivity.this, "WOW", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, Preferences.class));
                 return true;
+            case R.id.action_about:
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+
         }
         return super.onMenuItemSelected(featureId, item);
     }
