@@ -9,10 +9,15 @@
                 <!--android:key="checkboxPref" />-->
         <ListPreference
                 android:title="Search Method"
-                android:key="prefSearchMethod"
+                android:key="searchMethod"
                 android:defaultValue="wordsAndMeanings"
                 android:entries="@array/searchMethodItems"
                 android:entryValues="@array/searchMethodValues" />
+        <CheckBoxPreference
+                android:title = "Show number of the item"
+                android:key="showItemNumber"
+                android:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <!--<PreferenceCategory-->

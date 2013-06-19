@@ -78,16 +78,15 @@ public class MainActivity extends Activity {
     ImageView imgAdd;
 
     String searchMethod;
-//    String editTextPreference;
-//    String ringtonePreference;
-//    String secondEditTextPreference;
-//    String customPref;
+    boolean showItemNumber = true;
+
+    SharedPreferences prefs;
 
     private void getPrefs() {
         // Get the xml/preferences.xml preferences
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
-        searchMethod = prefs.getString("prefSearchMethod", "wordsAndMeanings");
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        searchMethod = prefs.getString("searchMethod", "wordsAndMeanings");
+        showItemNumber = prefs.getBoolean("showItemNumber", true);
 //        editTextPreference = prefs.getString("editTextPref",
 //                "Nothing has been entered");
 //        ringtonePreference = prefs.getString("ringtonePref",
@@ -234,7 +233,66 @@ public class MainActivity extends Activity {
 
     }
 
+    public void setElementsId() {
+        Words = getSharedPreferences("Words", 0);
+        Meanings = getSharedPreferences("Meanings", 0);
+        Rotate = getSharedPreferences("Rotate", 0);
+        editorWords = Words.edit();
+        editorMeanings = Meanings.edit();
+        editorRotate = Rotate.edit();
 
+        items = (ListView) findViewById(R.id.listView);
+        etSearch = (EditText) findViewById(R.id.etSearch);
+
+        arrayWords = new ArrayList<String>();
+        arrayWordsToShow = new ArrayList<String>();
+        arrayMeaning = new ArrayList<String>();
+
+        arrayWordsSearch = new ArrayList<String>();
+        arrayMeaningSearch = new ArrayList<String>();
+
+        adapterWords = new ArrayAdapter(MainActivity.this, R.layout.listview_row, arrayWordsToShow);
+
+
+        String countStr = Words.getString("count", "0");
+        count = Integer.parseInt(countStr);
+
+        dialogAddNew = new AlertDialog.Builder(this).create();
+        dialogEdit = new AlertDialog.Builder(this).create();
+        dialogMeaning = new AlertDialog.Builder(this).create();
+        dialogAskDelete = new AlertDialog.Builder(this).create();
+    }
+
+    public void setElementsValue() {
+        if (count > 0) {
+            arrayWords.clear();
+            arrayWordsToShow.clear();
+            arrayMeaning.clear();
+            for (int i = 0; i < count; i++) {
+                arrayWords.add(Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
+                arrayMeaning.add(Meanings.getString("meaning" + Integer.toString(i), "meaning" + Integer.toString(i)));
+
+                if (showItemNumber) {
+                    arrayWordsToShow.add(i + 1 + ".  " + Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
+                }
+                else {
+                    arrayWordsToShow.add(Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
+                }
+            }
+        }
+        adapterWords.notifyDataSetChanged();
+        items.setAdapter(adapterWords);
+
+
+    }
+
+
+
+
+
+
+
+    ///////Dialogs
     void dialogMeaning(boolean fromSearch, int position) {
         final boolean isFromSearchForEdit = fromSearch;
         final int positionForEdit = position;
@@ -429,54 +487,13 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void setElementsId() {
-        Words = getSharedPreferences("Words", 0);
-        Meanings = getSharedPreferences("Meanings", 0);
-        Rotate = getSharedPreferences("Rotate", 0);
-        editorWords = Words.edit();
-        editorMeanings = Meanings.edit();
-        editorRotate = Rotate.edit();
-
-        items = (ListView) findViewById(R.id.listView);
-        etSearch = (EditText) findViewById(R.id.etSearch);
-
-        arrayWords = new ArrayList<String>();
-        arrayWordsToShow = new ArrayList<String>();
-        arrayMeaning = new ArrayList<String>();
-
-        arrayWordsSearch = new ArrayList<String>();
-        arrayMeaningSearch = new ArrayList<String>();
-
-        adapterWords = new ArrayAdapter(MainActivity.this, R.layout.listview_row, arrayWordsToShow);
 
 
-        String countStr = Words.getString("count", "0");
-        count = Integer.parseInt(countStr);
-
-        dialogAddNew = new AlertDialog.Builder(this).create();
-        dialogEdit = new AlertDialog.Builder(this).create();
-        dialogMeaning = new AlertDialog.Builder(this).create();
-        dialogAskDelete = new AlertDialog.Builder(this).create();
-    }
 
 
-    public void setElementsValue() {
-        if (count > 0) {
-            arrayWords.clear();
-            arrayWordsToShow.clear();
-            arrayMeaning.clear();
-            for (int i = 0; i < count; i++) {
-                arrayWords.add(Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
-                arrayMeaning.add(Meanings.getString("meaning" + Integer.toString(i), "meaning" + Integer.toString(i)));
-
-                arrayWordsToShow.add(i + 1 + ".  " + Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)));
-            }
-        }
-        adapterWords.notifyDataSetChanged();
-        items.setAdapter(adapterWords);
 
 
-    }
+
 
 
     //btn add new word
@@ -659,6 +676,7 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
         getPrefs();
+        setElementsValue();
         items.setSelectionFromTop(listViewPosition, 0);
     }
 
