@@ -20,12 +20,16 @@
         <item>just in words</item>
         <item>just in meanings</item>
     </array>
-
     <array name="searchMethodValues">
         <item>wordsAndMeanings</item>
         <item>justWords</item>
         <item>justInMeanings</item>
     </array>
+
+    <string name="action_mark">Mark Several</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_markAll">Mark All</string>
+    <string name="action_unmarkAll">UnMark All</string>
 
 
 </resources>
