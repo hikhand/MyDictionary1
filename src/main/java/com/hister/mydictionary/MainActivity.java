@@ -115,21 +115,10 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         if (markSeveral) {
             adapterWords1 = new Adapter(MainActivity.this, R.layout.listview_row, arrayItemsToShow);
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
             markSeveral = false;
             setElementsId();
             refreshListViewData();
-=======
-        }
-            setElementsValue();
-            markSeveral = false;
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-=======
-        }
-            setElementsValue();
-            markSeveral = false;
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
 
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
@@ -144,6 +133,7 @@ public class MainActivity extends Activity {
                     doubleBackToExitPressedOnce=false;
                 }
             }, 2000);
+        }
     }
 
 
@@ -317,7 +307,6 @@ public class MainActivity extends Activity {
     }
 
 
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
 
     //Dialogs Add New Word
     //
@@ -329,29 +318,7 @@ public class MainActivity extends Activity {
                 .setPositiveButton(R.string.save,
                         new Dialog.OnClickListener() {
                             public void onClick(DialogInterface d, int which) {
-=======
-                if (showItemNumber) {
-                    arrayItemsToShow.add( new Custom(i + 1 + ".  " + Words.getString("word" + Integer.toString(i), i + 1 + ".  " + "word" + Integer.toString(i)),
-                            Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
-                            markSeveral));
-                }
-                else {
-                    arrayItemsToShow.add( new Custom(Words.getString("word" + Integer.toString(i), i + 1 + ".  " + "word" + Integer.toString(i)),
-                            Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
-                            markSeveral));
-                }
-//                if (markSeveral) {
-//                    item = arrayItems.get(i);
-//                    item.setChecked(true);
-//                    item.setChVisible(true);
-//                }
-//                else {
-//                    item = arrayItems.get(i);
-//                    item.setChVisible(false);
-//                }
-            }
-        }
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
 
                             }
                         })
@@ -500,14 +467,6 @@ public class MainActivity extends Activity {
                         newWordEdit = dialogEditWord.getText().toString();
                         newMeaningEdit = dialogEditMeaning.getText().toString();
                         dialogEdit.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
-=======
-=======
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-
-                        dialogAskDelete();
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
 
                         dialogAskDelete(positionToSendToDialogDelete);
                     }
@@ -520,19 +479,10 @@ public class MainActivity extends Activity {
         etNewWord = (EditText) layout.findViewById(R.id.word);
         etNewMeaning = (EditText) layout.findViewById(R.id.meaning);
         if (fromSearch) {
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
             int realPosition = getPosition(position);
             etNewWord.setText(arrayItems.get(realPosition).getWord());
             etNewMeaning.setText(arrayMeaning.get(realPosition));
-=======
-            etNewWord.setText(Words.getString("word" + Integer.toString(position), "word" + Integer.toString(position)));
-            etNewMeaning.setText(arrayMeaning.get(position));
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-=======
-            etNewWord.setText(Words.getString("word" + Integer.toString(position), "word" + Integer.toString(position)));
-            etNewMeaning.setText(arrayMeaning.get(position));
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
         } else {
             etNewWord.setText(Words.getString("word" + Integer.toString(position), "word" + Integer.toString(position)));
             etNewMeaning.setText(arrayMeaning.get(position));
@@ -587,26 +537,8 @@ public class MainActivity extends Activity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
                 delete(getPosition(positionAsFinal), positionAsFinal);
-=======
 
-                int realPosition = realPosition(dialogEditWordPosition);
-
-                editorWords.remove("word" + realPosition);
-                editorMeanings.remove("meaning" + realPosition);
-                editorWords.commit();
-                editorMeanings.commit();
-                arrayItems.remove(realPosition);
-                arrayItemsToShow.remove(dialogEditWordPosition );
-                arrayMeaning.remove(realPosition);
-                count--;
-
-                setImgAddVisibility();
-
-                refreshList();
-                setElementsValue();
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
 
                 Toast.makeText(MainActivity.this, "Successfully deleted.", Toast.LENGTH_SHORT).show();
             }
@@ -703,47 +635,11 @@ public class MainActivity extends Activity {
                             Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
                             markSeveral));
                 }
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
                 else {
                     arrayItemsToShow.add( new Custom(Words.getString("word" + Integer.toString(i), "word" + Integer.toString(i)),
                             Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
                             markSeveral));
-=======
-                int for1 = arrayItemsToShow.size();
-                int for2 = arrayItems.size();
-                int left;
-                boolean found = false;
-                for (int i = 0; i < for1; ++i) {
-                    if (found) {
-                        i = 0;
-                        found = false;
-                    }
-                    if (checkedPositionsInt.get(i) == 1) continue;
-                    for (int j = 0; j < for2; ++j) {
-                        if (arrayItemsToShow.get(j).equals(items.getItemAtPosition(i))) {
-                            int position = realPosition(j);
 
-                            editorWords.remove("word" + position);
-                            editorMeanings.remove("meaning" + position);
-                            arrayItems.remove(position);
-                            arrayItemsToShow.remove(i);
-                            arrayMeaning.remove(position);
-                            count--;
-                            checkedPositionsInt.remove(i);
-                            left = checkedPositionsInt.size();
-                            if (left != 1) {
-                            for1 = arrayItemsToShow.size();
-                            }
-                            for2 = arrayItems.size();
-                            found = true;
-                            i = 0;
-                            break;
-                        }
-                        else {
-                            found = false;
-                        }
-                    }
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
                 }
             }
         }
@@ -782,30 +678,16 @@ public class MainActivity extends Activity {
         int realPosition = 0;
         boolean found = false;
         for (int i = 0; i < arrayItems.size(); i++) {
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
             if (arrayItems.get(i).getWord().equals(arrayItemsToShow.get(position).getWord()) &&
                     arrayMeaning.get(i).equals(arrayMeaningToShow.get(position))) {
-=======
-            if (arrayItems.get(i).equals(arrayItemsToShow.get(position))) {
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-=======
-            if (arrayItems.get(i).equals(arrayItemsToShow.get(position))) {
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
                 realPosition = i;
                 break;
             }
             for (int j = 0; j < arrayItems.size(); j++) {
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
                 if ((Integer.toString(j + 1) + ". " + arrayItems.get(i).getWord()).equals(arrayItemsToShow.get(position).getWord()) &&
                         arrayMeaning.get(i).equals(arrayMeaningToShow.get(position))) {
-=======
-                if ((Integer.toString(j + 1) + ".  " + arrayItems.get(i)).equals(arrayItemsToShow.get(position))) {
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-=======
-                if ((Integer.toString(j + 1) + ".  " + arrayItems.get(i)).equals(arrayItemsToShow.get(position))) {
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
                     realPosition = i;
                     found = true;
                     break;
@@ -875,16 +757,6 @@ public class MainActivity extends Activity {
                 return false;
             }
         }
-<<<<<<< HEAD:src/main/java/com/hister/mydictionary/MainActivity.java
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
-=======
-=======
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
-        if (arrayItems.get(dialogEditWordPosition).equals(newWord) && arrayMeaning.get(dialogEditWordPosition).equals(newWord)) {
-            Toast.makeText(this, "every Thing's the same.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
 
         return true;
     }
@@ -893,9 +765,6 @@ public class MainActivity extends Activity {
 
 
 
-
-
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
 
 
 
@@ -908,13 +777,7 @@ public class MainActivity extends Activity {
             dialogAskDeleteIsOpen = icicle.getBoolean("dialogAskDeleteIsOpen");
             listViewPosition = icicle.getParcelable("listViewPosition");
             markSeveral = icicle.getBoolean("markSeveral");
-=======
-        for (int i = 0; i < count; i++) {
 
-            editorWords.putString("word" + Integer.toString(i), arrayItems.get(i).getWord());
-            editorWords.putString("date" + Integer.toString(i), arrayItems.get(i).getDate());
-            editorMeanings.putString("meaning" + Integer.toString(i), arrayMeaning.get(i));
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
         }
 
 
@@ -956,32 +819,11 @@ public class MainActivity extends Activity {
         }
     }
 
-<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/MainActivity.java
 
     void setMarksAfterChange() {
         for (int i = 0; i < arrayItemsToShow.size(); i++) {
             arrayItemsToShow.get(i).setChChecked(checkedPositionsInt.get(i) == 0);
-=======
-                    if (showItemNumber) {
-                        arrayItemsToShow.add( new Custom(i + 1 + ".  " + Words.getString("word" + Integer.toString(i), i + 1 + ".  " + "word" + Integer.toString(i)),
-                                Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
-                                markSeveral));
-                    }
-                    else {
-                        arrayItemsToShow.add( new Custom(Words.getString("word" + Integer.toString(i), i + 1 + ".  " + "word" + Integer.toString(i)),
-                                Dates.getString("date" + Integer.toString(i), "date" + Integer.toString(i)),
-                                markSeveral));
-                    }
-                    arrayMeaningSearch.add(Meanings.getString("meaning" + Integer.toString(i), "meaning" + Integer.toString(i)));
-                    found++;
-                    j++;
-                }
-            }
-            if (found > 0) {
-                adapterWords1.notifyDataSetChanged();
-                items.setAdapter(adapterWords1);
-            }
->>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/MainActivity.java
+
         }
         adapterWords1.notifyDataSetChanged();
 //        if (markSeveral && !isFromDeleteMark) {
