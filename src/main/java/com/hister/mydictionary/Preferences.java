@@ -7,8 +7,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+<<<<<<< HEAD:src/main/java/com/hister/mydictionary/Preferences.java
+<<<<<<< HEAD:src/main/java/com/hister/mydictionarypro/Preferences.java
+
+import com.hister.mydictionarypro.R;
+=======
 import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
+>>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/Preferences.java
+=======
+import android.preference.Preference.OnPreferenceClickListener;
+import android.widget.Toast;
+>>>>>>> parent of 739692b... 2.0.1:src/main/java/com/hister/mydictionary/Preferences.java
 
 public class Preferences extends PreferenceActivity {
     @Override

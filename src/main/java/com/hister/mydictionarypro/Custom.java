@@ -1,4 +1,4 @@
-package com.hister.mydictionary;
+package com.hister.mydictionarypro;
 
 /**
  * Created by khaled on 6/21/13.
